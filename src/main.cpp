@@ -34,6 +34,8 @@ void on_center_button() {
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
+  	pros::lcd::initialize();
+
 	odom = std::make_shared<rev::TwoRotationInertialOdometry>(
     fwd,      // The forward sensor
     lat,      // The rightward sensor 
@@ -102,28 +104,23 @@ void opcontrol() {
 
   pros::delay(2000);
   odom->reset_position();
-  
-
+  /*
+for (int i = 0; i < 10000; i++) {
+  print_position(odom);
+  pros::delay(100);
+}
 
 Path path;
 
-path.add_straight(Straight({  20_in,  0_in, 0_deg}, 0_s, MOTOR_SPEED::FAST));
+path.add_straight(Straight({  20_in,  0_in, 0_deg}, 0_s, MOTOR_SPEED::SLOW));
 path.add_turn(MyTurn(-90_deg));
 path.add_straight(Straight({ 20_in,   -10_in, 0_deg}, 0_s, MOTOR_SPEED::SLOW));
 
 path.go(reckless, turn);
-
-
-
-  int count = 0;
-  for (int i = 0; i < 50; i++) {
-    print_position(odom);
-    pros::delay(100);
-  }
-
+*/
 
 	while (true) {
-  print_position(odom);
+ // print_position(odom);
 
     int starting = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
 
@@ -145,13 +142,13 @@ path.go(reckless, turn);
 	left_mg.move_voltage((int)((double) (starting + turn)/150 * 12000));
 	right_mg.move_voltage((int)((double) (starting - turn)/150 * 12000));
 
-
+/*
 		if (controller.get_digital(DIGITAL_L1))
 			intake.move_voltage(12000);
 		else if (controller.get_digital(DIGITAL_R1))
 			intake.move_voltage(-12000);
 		else intake.move_voltage(0);
-
+*/
 		pros::delay(20);
 	}
 }
