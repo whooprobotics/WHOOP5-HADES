@@ -26,7 +26,7 @@ void comp_auto(std::shared_ptr<rev::TwoRotationInertialOdometry> odom, std::shar
     path.add_turn(MyTurn(327_deg, 600_ms));
     path.add_straight(Straight({56_in, -10_in, 0_deg}, 0_in, MOTOR_SPEED::MID, true, 500_ms));
     path.add_intake_control(IN);
-    path.add_straight(Straight({54_in, -3_in, 0_deg}, 0_in, MOTOR_SPEED::MID, false, 9999_s));
+    path.add_straight(Straight({54_in, -5_in, 0_deg}, 0_in, MOTOR_SPEED::MID, false, 9999_s));
     path.add_intake_control(IN_WITH_SENSE);
 
     // line up for push over
