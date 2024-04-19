@@ -1,27 +1,51 @@
+#ifndef GLOBALS_H
+#define GLOBALS_H
+
 #include <vector>
 #include "main.h"
 #include "rev/rev.hh"
-#include <memory>
+#include "path/Wing.h"
+#include "path/Intake.h"
 
-std::shared_ptr<rev::AsyncRunner> odom_runner;
-std::shared_ptr<rev::AsyncRunner> reckless_runner;
+const int WING_OUT = 1;
+const int WING_IN = 0;
+
+const int ODOM_UP = 1;
+const int ODOM_DOWN = 0;
+
+extern std::shared_ptr<rev::AsyncRunner> odom_runner;
+extern std::shared_ptr<rev::AsyncRunner> reckless_runner;
+extern std::shared_ptr<rev::AsyncRunner> turn_runner;
 
 
-std::shared_ptr<rev::TwoRotationInertialOdometry> odom;
-std::shared_ptr<rev::SkidSteerChassis> chassis;
+extern std::shared_ptr<rev::TwoRotationInertialOdometry> odom;
+extern std::shared_ptr<rev::SkidSteerChassis> chassis;
 
-std::shared_ptr<rev::Reckless> reckless;
-std::shared_ptr<rev::CampbellTurn> turn;
+extern std::shared_ptr<rev::Reckless> reckless;
+extern std::shared_ptr<rev::CampbellTurn> turn;
+
 
 // motor ports
-pros::MotorGroup left_mg({ -6, -19, -20, -15 });
-pros::MotorGroup right_mg({11, 4, 8, 5});
-//pros::MotorGroup intake({ 10, -18 });
+extern pros::MotorGroup left_mg;
+extern pros::MotorGroup right_mg;
+extern pros::MotorGroup intake;
 
 // sensor inputs
-const int IMU_PORT = 7;
-const int H_ROTATION_PORT = 10;
-const int V_ROTATION_PORT = 18;
-pros::IMU imu = pros::IMU(IMU_PORT);
-pros::Rotation fwd = pros::Rotation(V_ROTATION_PORT, true);
-pros::Rotation lat = pros::Rotation(H_ROTATION_PORT);
+extern pros::IMU imu;
+extern pros::Rotation fwd;
+extern pros::Rotation lat;
+
+// Beam Break
+extern pros::ADIDigitalIn beam_break;
+extern IntakeSystem intake_system;
+
+// hydraulics
+
+extern pros::ADIDigitalOut backWingL;
+extern pros::ADIDigitalOut backWingR;
+extern pros::ADIDigitalOut frontWings;
+extern pros::ADIDigitalOut odomHydraulic;
+
+extern Wings wings;
+
+#endif

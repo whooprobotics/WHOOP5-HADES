@@ -50,6 +50,10 @@ class CampbellTurn : public Turn,
    */
   bool is_completed();
 
+  void breakout() {
+    controller_state = TurnState::INACTIVE;
+  }
+
  private:
   std::shared_ptr<Chassis> chassis;
   std::shared_ptr<Odometry> odometry;

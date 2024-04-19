@@ -3,6 +3,10 @@
 #include "globals.h"
 #include "path/Path.h"
 
+#include "comp_auto.h"
+#include "elim_auto.h"
+#include "skills_auto.h"
+
 using namespace rev;
 
 void print_position(std::shared_ptr<TwoRotationInertialOdometry> odom) {
@@ -11,21 +15,6 @@ void print_position(std::shared_ptr<TwoRotationInertialOdometry> odom) {
 	pros::lcd::set_text(2, "Heading: " + std::to_string(odom->get_state().pos.theta.convert(degree)));
 }
 
-/**
- * A callback function for LLEMU's center button.
- *
- * When this callback is fired, it will toggle line 2 of the LCD text between
- * "I was pressed!" and nothing.
- */
-void on_center_button() {
-	static bool pressed = false;
-	pressed = !pressed;
-	if (pressed) {
-		pros::lcd::set_text(2, "I was pressed!");
-	} else {
-		pros::lcd::clear_line(2);
-	}
-}
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -34,8 +23,7 @@ void on_center_button() {
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-  	pros::lcd::initialize();
-
+  chassis = std::make_shared<rev::SkidSteerChassis>(left_mg, right_mg);
 	odom = std::make_shared<rev::TwoRotationInertialOdometry>(
     fwd,      // The forward sensor
     lat,      // The rightward sensor 
@@ -45,13 +33,19 @@ void initialize() {
     -1.125_in,  // How far to the right of the center of the robot the forward wheel is
     -1_in    // How far to the rear of the robot the lateral wheel is from the center
   );
-  chassis = std::make_shared<rev::SkidSteerChassis>(left_mg, right_mg);
+  turn = std::make_shared<CampbellTurn>(chassis, odom, 0.18, 0.07);  
   reckless = std::make_shared<Reckless>(chassis, odom);
 
-  odom_runner = std::make_shared<rev::AsyncRunner>(rev::AsyncRunner(odom));
+  odom_runner = std::make_shared<rev::AsyncRunner>(odom);
 	reckless_runner = std::make_shared<rev::AsyncRunner>(reckless);
+	turn_runner = std::make_shared<rev::AsyncRunner> (turn);
 
-  turn = std::make_shared<CampbellTurn>(chassis, odom, 0.15, 0.05);  
+	pros::lcd::initialize();
+
+  pros::delay(2000);
+  odom->reset_position();
+
+  
 }
 
 /**
@@ -83,7 +77,14 @@ void competition_initialize() {}
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
-void autonomous() {}
+void autonomous() {
+  odomHydraulic.set_value(ODOM_DOWN);
+  //backWingL.set_value(WING_OUT);
+
+  //comp_auto(odom, reckless, turn);
+  //skills_auto(odom, reckless, turn);
+  comp_auto(odom, reckless, turn, intake_system);
+}
 
 /**
  * Runs the operator control code. This function will be started in its own task
@@ -99,29 +100,34 @@ void autonomous() {}
  * task, not resume it from where it left off.
  */
 void opcontrol() {
+
+
+  //Path path;
+  //path.add_straight(Straight({ 10_in, 0_in, 0_deg }, 0_in, MOTOR_SPEED::SLOW));
+  //path.go(reckless, turn);
+  autonomous();
+  //print_position(odom);
+
 	pros::Controller controller(pros::E_CONTROLLER_MASTER);
-
-
-  pros::delay(2000);
-  odom->reset_position();
-  /*
-for (int i = 0; i < 10000; i++) {
-  print_position(odom);
-  pros::delay(100);
-}
-
-Path path;
-
-path.add_straight(Straight({  20_in,  0_in, 0_deg}, 0_s, MOTOR_SPEED::SLOW));
-path.add_turn(MyTurn(-90_deg));
-path.add_straight(Straight({ 20_in,   -10_in, 0_deg}, 0_s, MOTOR_SPEED::SLOW));
-
-path.go(reckless, turn);
+/*
+R1 - back wings
+L1 - front wings
+L2 - intake
+R2 - outake
 */
 
-	while (true) {
- // print_position(odom);
+  odomHydraulic.set_value(ODOM_UP);
 
+  bool rearWingsOut = false;
+  bool frontWingsOut = false;
+  bool odomUp = false;
+  bool r1Down = false;
+  bool l1Down = false;
+  bool ADown = false;
+
+	while (true) {
+    print_position(odom);
+    pros::lcd::set_text(3, "bb: " + std::to_string(beam_break.get_value()));
     int starting = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
 
     int turn = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
@@ -139,16 +145,61 @@ path.go(reckless, turn);
         turn = 0;
     }
 
+    if (controller.get_digital(DIGITAL_R1)) {
+      if (!r1Down) {
+        r1Down = true;
+        rearWingsOut = !rearWingsOut;
+        if (!rearWingsOut) {
+          backWingL.set_value(WING_IN);
+          backWingR.set_value(WING_IN);
+        } else {
+          backWingL.set_value(WING_OUT);
+          backWingR.set_value(WING_OUT);
+        }
+      }
+    } else {
+      r1Down = false;
+    }
+
+     if (controller.get_digital(DIGITAL_L1)) {
+      if (!l1Down) {
+        l1Down = true;
+        frontWingsOut = !frontWingsOut;
+        if (!frontWingsOut) {
+          frontWings.set_value(WING_IN);
+        } else {
+          frontWings.set_value(WING_OUT);
+        }
+      }
+    } else {
+      l1Down = false;
+    }
+  /*
+     if (controller.get_digital(DIGITAL_A)) {
+      if (!ADown) {
+        ADown = true;
+        odomUp = !odomUp;
+        if (!odomUp) {
+          odomHydraulic.set_value(ODOM_UP);
+        } else {
+          odomHydraulic.set_value(ODOM_DOWN);
+        }
+      }
+    } else {
+      ADown = false;
+    }
+    */
+
 	left_mg.move_voltage((int)((double) (starting + turn)/150 * 12000));
 	right_mg.move_voltage((int)((double) (starting - turn)/150 * 12000));
 
-/*
-		if (controller.get_digital(DIGITAL_L1))
+
+		if (controller.get_digital(DIGITAL_L2))
 			intake.move_voltage(12000);
-		else if (controller.get_digital(DIGITAL_R1))
+		else if (controller.get_digital(DIGITAL_R2))
 			intake.move_voltage(-12000);
 		else intake.move_voltage(0);
-*/
+
 		pros::delay(20);
 	}
 }
