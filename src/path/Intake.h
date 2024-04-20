@@ -4,7 +4,7 @@
 #include "api.h"
 
 enum INTAKE_MODE {
-    IN, OUT, REST, IN_WITH_SENSE
+    IN, OUT, OUT_SLOW, REST, IN_WITH_SENSE, OUT_WITH_SENSE
 };
 
 struct IntakeSystem {

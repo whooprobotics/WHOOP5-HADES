@@ -83,6 +83,7 @@ void Path::go(std::shared_ptr<Reckless> reckless,
     int i = 0;
     while (!straight_segments.empty() || !turns.empty() 
                 || !wing_controls.empty() || !delays.empty() || !intake_controls.empty()) {
+        //pros::delay(1000);
         if (is_turn == TURN) {
              MyTurn turn = turns.front();
              turns.pop();
@@ -124,7 +125,21 @@ void Path::go(std::shared_ptr<Reckless> reckless,
                 case OUT:
                     intake.intake.move_voltage(-12000);
                     break;
+                case OUT_SLOW:
+                    intake.intake.move_voltage(-10000);
+                    break;
                 case REST:
+                    intake.intake.move_voltage(0);
+                    break;
+                case OUT_WITH_SENSE:
+                    intake.intake.move_voltage(-12000);
+
+                    for (int i = 0; i < 100; i++) {
+                        if (intake.beam_break.get_value() == 0)
+                            break;
+                        pros::delay(10);
+                    }
+
                     intake.intake.move_voltage(0);
                     break;
                 case IN_WITH_SENSE:
