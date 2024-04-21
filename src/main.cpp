@@ -6,6 +6,8 @@
 #include "comp_auto.h"
 #include "elim_auto.h"
 #include "skills_auto.h"
+#include "comp_auto_passive.h"
+#include "tuning.h"
 
 using namespace rev;
 
@@ -83,7 +85,7 @@ void autonomous() {
 
   //comp_auto(odom, reckless, turn);
   //skills_auto(odom, reckless, turn);
-  comp_auto(odom, reckless, turn, intake_system);
+  tuning(odom, reckless, turn, intake_system);
 }
 
 /**
