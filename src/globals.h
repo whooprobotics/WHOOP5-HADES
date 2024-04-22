@@ -29,6 +29,7 @@ extern std::shared_ptr<rev::CampbellTurn> turn;
 extern pros::MotorGroup left_mg;
 extern pros::MotorGroup right_mg;
 extern pros::MotorGroup intake;
+extern pros::MotorGroup climbing_mech;
 
 // sensor inputs
 extern pros::IMU imu;

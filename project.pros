@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "WHOOP5-HADES-auto",
+    "project_name": "HADES-Auto",
     "target": "v5",
     "templates": {
       "kernel": {
