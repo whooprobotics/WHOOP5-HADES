@@ -9,24 +9,27 @@ void comp_auto_passive(std::shared_ptr<rev::TwoRotationInertialOdometry> odom, s
     Path path;
 
     // get the bottom left ball
-    path.add_straight(Straight({36_in, 0_in, 0_deg}, 0_in, MOTOR_SPEED::MID, true, 9999_s));
+    path.add_straight(Straight({28_in, 3_in, 0_deg}, 0_in, MOTOR_SPEED::MID, true, 400_ms));
     path.add_intake_control(IN);
-    path.add_straight(Straight({41_in, -3_in, 0_deg}, 0_in, MOTOR_SPEED::MID, false, 9999_s));
+    path.add_straight(Straight({30_in, 2.5_in, 0_deg}, 0_in, MOTOR_SPEED::MID, true, 2000_ms));
     path.add_intake_control(IN_WITH_SENSE);
 
     // drop if off for Zeus to grab
     path.add_turn(MyTurn(135_deg, 700_ms));
-    path.add_straight(Straight({33_in, 6.5_in, 0_deg}, 0_in, MOTOR_SPEED::MID, true, 1300_ms));
+    path.add_straight(Straight({36_in, 22_in, 0_deg}, 0_in, MOTOR_SPEED::MID, true, 1300_ms));
     path.add_intake_control(OUT_SLOW);
-    path.add_delay(400);
+    path.add_delay(600);
     path.add_intake_control(REST);
-    path.add_straight(Straight({  39_in,  28_in, 0_deg}, 0_in, MOTOR_SPEED::MID,false,400_ms));
+    path.add_straight(Straight({  40_in,  18_in, 0_deg }, 0_in, MOTOR_SPEED::MID,false,500_ms));
+
+
+
 
     // Go back for the second ball on the left
     path.add_turn(MyTurn(327_deg, 600_ms));
-    path.add_straight(Straight({51_in, -15_in, 0_deg}, 0_in, MOTOR_SPEED::MID, true, 500_ms));
+    path.add_straight(Straight({56_in, 0_in, 0_deg}, 0_in, MOTOR_SPEED::MID, true, 500_ms));
     path.add_intake_control(IN);
-    path.add_straight(Straight({49_in, -8_in, 0_deg}, 0_in, MOTOR_SPEED::MID, false, 9999_s));
+    path.add_straight(Straight({56_in, 0_in, 0_deg}, 0_in, MOTOR_SPEED::MID, false, 9999_s));
     path.add_intake_control(IN_WITH_SENSE);
 
     // line up for push over

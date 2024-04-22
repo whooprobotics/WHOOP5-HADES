@@ -83,9 +83,9 @@ void autonomous() {
   odomHydraulic.set_value(ODOM_DOWN);
   //backWingL.set_value(WING_OUT);
 
-  //comp_auto(odom, reckless, turn);
+  comp_auto_passive(odom, reckless, turn, intake_system);
   //skills_auto(odom, reckless, turn);
-  tuning(odom, reckless, turn, intake_system);
+  //tuning(odom, reckless, turn, intake_system);
 }
 
 /**
@@ -108,7 +108,7 @@ void opcontrol() {
   //path.add_straight(Straight({ 10_in, 0_in, 0_deg }, 0_in, MOTOR_SPEED::SLOW));
   //path.go(reckless, turn);
   autonomous();
-  //print_position(odom);
+  print_position(odom);
 
 	pros::Controller controller(pros::E_CONTROLLER_MASTER);
 /*

@@ -22,10 +22,13 @@ void Path::add_straight(const Straight& straight) {
         glideSpeed = 0.25;
         break;
     case MOTOR_SPEED::MID:
-        speed = 0.6;
+        //speed = 0.6;
+        speed = 1.0;
+        hardStop = 0.04_s;
         break;
     case MOTOR_SPEED::FAST:
         speed = 1.0;
+        hardStop = 0.04_s;
         break;
     }
 
@@ -83,7 +86,6 @@ void Path::go(std::shared_ptr<Reckless> reckless,
     int i = 0;
     while (!straight_segments.empty() || !turns.empty() 
                 || !wing_controls.empty() || !delays.empty() || !intake_controls.empty()) {
-        //pros::delay(1000);
         if (is_turn == TURN) {
              MyTurn turn = turns.front();
              turns.pop();
