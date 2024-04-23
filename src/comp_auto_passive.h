@@ -16,7 +16,7 @@ void comp_auto_passive(std::shared_ptr<rev::TwoRotationInertialOdometry> odom, s
 
     // drop if off for Zeus to grab
     path.add_turn(MyTurn(135_deg, 700_ms));
-    path.add_straight(Straight({28_in, 4_in, 0_deg}, 0_in, MOTOR_SPEED::MID, true, 400_ms));
+    path.add_straight(Straight({28_in, 8_in, 0_deg}, 0_in, MOTOR_SPEED::MID, true, 400_ms));
     path.add_intake_control(OUT_SLOW);
     path.add_delay(600);
     path.add_intake_control(REST);
@@ -32,8 +32,9 @@ void comp_auto_passive(std::shared_ptr<rev::TwoRotationInertialOdometry> odom, s
     path.add_intake_control(IN_WITH_SENSE);
 
     // line up for push over
-    path.add_turn(MyTurn(45_deg, 700_ms));
+    path.add_turn(MyTurn(45_deg));
     path.add_wing_control(Wing(OPEN, FRONT));
+    path.add_delay(400);
     path.add_straight(Straight({  65_in,  11_in, 0_deg}, 0_in, MOTOR_SPEED::MID,true,100_ms));
     path.add_intake_control(OUT);
     path.add_straight(Straight({  65_in,   11_in, 0_deg}, 0_in, MOTOR_SPEED::MID,false,800_ms));
@@ -44,10 +45,11 @@ void comp_auto_passive(std::shared_ptr<rev::TwoRotationInertialOdometry> odom, s
     path.add_intake_control(OUT);
     path.add_straight(Straight({  68_in,   8_in, 0_deg}, 0_in, MOTOR_SPEED::MID,false,800_ms));
     path.add_wing_control(Wing(CLOSE, FRONT));
+    path.add_delay(400);
     path.add_intake_control(REST);
     // go back to the starting point
     path.add_straight(Straight({24_in, 5_in, 0_deg}, 0_in, MOTOR_SPEED::MID, true, 9999_s));
-    path.add_straight(Straight({3_in, 3_in, 0_deg}, 0_in, MOTOR_SPEED::MID, true, 1_s));
+    path.add_straight(Straight({5_in, 3_in, 0_deg}, 0_in, MOTOR_SPEED::MID, true, 1_s));
     path.add_turn(MyTurn(-90_deg));
 
 
@@ -56,11 +58,13 @@ void comp_auto_passive(std::shared_ptr<rev::TwoRotationInertialOdometry> odom, s
 
 // intake balls
 path.add_wing_control(Wing(OPEN, BACK_LEFT));
+path.add_delay(400);
 for (int i = 0; i < 4; i++) {
     path.add_straight(Straight({-2.5_in, 0_in, 0_deg}, 1_in, MOTOR_SPEED::MID, false, 800_ms));
-    path.add_straight(Straight({-3_in, 11_in, 0_deg}, 1_in, MOTOR_SPEED::MID, false, 800_ms));
+    path.add_straight(Straight({-2.5_in, 11_in, 0_deg}, 1_in, MOTOR_SPEED::MID, false, 800_ms));
 }
 path.add_wing_control(Wing(CLOSE, BACK_LEFT));
+path.add_delay(400);
 path.add_wing_control(Wing(OPEN, BACK_RIGHT));
 
 path.add_delay(200);

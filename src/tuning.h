@@ -7,8 +7,11 @@ void tuning(std::shared_ptr<rev::TwoRotationInertialOdometry> odom, std::shared_
                std::shared_ptr<rev::CampbellTurn> turn, const IntakeSystem &intake)
 {
     Path path;
-    //path.add_straight(Straight({20_in, 0_in, 0_deg},0_in, MOTOR_SPEED::MID, false));
-    path.add_turn(MyTurn(90.0_deg));
+    path.add_wing_control(Wing(OPEN, BACK_LEFT));
+    path.add_delay(1000);
+    path.add_wing_control(Wing(OPEN,BACK_RIGHT));
+    path.add_delay(1000);
+    path.add_wing_control(Wing(OPEN, FRONT));
 
     path.go(reckless, turn, Wings{backWingL, backWingR, frontWings}, intake);
 }

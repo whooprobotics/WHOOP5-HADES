@@ -12,7 +12,8 @@ const int INTAKE_RUN = 4;
 void Path::add_straight(const Straight& straight) {
     double speed = 0.5;
     double glideSpeed = 0.3;
-    QTime hardStop = 0.03_s;
+    double kP = 4;
+    QTime hardStop = 0.04_s;
     QTime softStop = 0.15_s;
     
     switch (straight.get_motor_speed())
@@ -21,15 +22,21 @@ void Path::add_straight(const Straight& straight) {
         speed = 0.4;
         glideSpeed = 0.25;
         break;
+    case MOTOR_SPEED::MID_STRAIGHT:
+        kP = 3.3;
     case MOTOR_SPEED::MID:
-        //speed = 0.6;
+         speed = 0.6;
         //speed = 0.6;
         //softStop = 0.28_s;
-        //break;
+        break;
     case MOTOR_SPEED::FAST:
         speed = 1.0;
         hardStop = 0.04_s;
         break;
+    
+
+
+    
     }
 
     if (straight.is_smooth_finish()) {
@@ -42,12 +49,12 @@ void Path::add_straight(const Straight& straight) {
         straight_segments.push(RecklessPath()
         .with_segment(RecklessPathSegment(
         std::make_shared<ConstantMotion>(speed),
-        std::make_shared<PilonsCorrection>(4, 0.3_in),
+        std::make_shared<PilonsCorrection>(kP, 0.3_in),
         std::make_shared<SimpleStop>(hardStop, softStop, glideSpeed, straight.get_time_out()), straight.get_target(), straight.get_drop_early())));
     } else {
         straight_segments.back().with_segment(RecklessPathSegment(
         std::make_shared<ConstantMotion>(speed),
-        std::make_shared<PilonsCorrection>(4, 0.3_in),
+        std::make_shared<PilonsCorrection>(kP, 0.3_in),
         std::make_shared<SimpleStop>(hardStop, softStop, glideSpeed, straight.get_time_out()), straight.get_target(), straight.get_drop_early()));
     }
 
@@ -76,6 +83,8 @@ void Path::add_turn(const MyTurn& turn) {
 
 void Path::go(std::shared_ptr<Reckless> reckless, 
                 std::shared_ptr<CampbellTurn> turnController, const Wings& wings, const IntakeSystem& intake) {
+
+
     if (straight_segments.empty() && turns.empty()
              && wing_controls.empty() && delays.empty() && intake_controls.empty()) return;
 
@@ -86,6 +95,7 @@ void Path::go(std::shared_ptr<Reckless> reckless,
     int i = 0;
     while (!straight_segments.empty() || !turns.empty() 
                 || !wing_controls.empty() || !delays.empty() || !intake_controls.empty()) {
+        pros::delay(1000);
         if (is_turn == TURN) {
              MyTurn turn = turns.front();
              turns.pop();
