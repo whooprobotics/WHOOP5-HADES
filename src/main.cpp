@@ -35,7 +35,7 @@ void initialize() {
     -1.125_in,  // How far to the right of the center of the robot the forward wheel is
     -1_in    // How far to the rear of the robot the lateral wheel is from the center
   );
-  turn = std::make_shared<CampbellTurn>(chassis, odom, 0.18, 0.07);  
+  turn = std::make_shared<CampbellTurn>(chassis, odom, 0.18, 0.09);  
   reckless = std::make_shared<Reckless>(chassis, odom);
 
   odom_runner = std::make_shared<rev::AsyncRunner>(odom);
@@ -83,9 +83,9 @@ void autonomous() {
   odomHydraulic.set_value(ODOM_DOWN);
   //backWingL.set_value(WING_OUT);
 
-  //comp_auto_passive(odom, reckless, turn, intake_system);
+  comp_auto_passive(odom, reckless, turn, intake_system);
   //skills_auto(odom, reckless, turn);
-  tuning(odom, reckless, turn, intake_system);
+  //tuning(odom, reckless, turn, intake_system);
 }
 
 /**
@@ -107,8 +107,8 @@ void opcontrol() {
   //Path path;
   //path.add_straight(Straight({ 10_in, 0_in, 0_deg }, 0_in, MOTOR_SPEED::SLOW));
   //path.go(reckless, turn);
- autonomous();
-  print_position(odom);
+  autonomous();
+  //print_position(odom);
 
 	pros::Controller controller(pros::E_CONTROLLER_MASTER);
 /*
@@ -118,7 +118,7 @@ L2 - intake
 R2 - outake
 */
 
-  odomHydraulic.set_value(ODOM_UP);
+  odomHydraulic.set_value(ODOM_DOWN);
 
   bool rearWingsOut = false;
   bool frontWingsOut = false;

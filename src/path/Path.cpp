@@ -23,9 +23,9 @@ void Path::add_straight(const Straight& straight) {
         break;
     case MOTOR_SPEED::MID:
         //speed = 0.6;
-        speed = 1.0;
-        hardStop = 0.04_s;
-        break;
+        //speed = 0.6;
+        //softStop = 0.28_s;
+        //break;
     case MOTOR_SPEED::FAST:
         speed = 1.0;
         hardStop = 0.04_s;
