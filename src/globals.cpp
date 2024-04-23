@@ -23,7 +23,7 @@ pros::MotorGroup climbing_mech({ 11, -2 });
 
 // sensor inputs
 const int IMU_PORT = 12;
-const int H_ROTATION_PORT = 6;
+const int H_ROTATION_PORT = 3;
 const int V_ROTATION_PORT = 8;
 pros::IMU imu = pros::IMU(IMU_PORT);
 pros::Rotation fwd = pros::Rotation(V_ROTATION_PORT);
@@ -33,9 +33,9 @@ pros::Rotation lat = pros::Rotation(H_ROTATION_PORT);
 pros::ADIDigitalIn beam_break('D');
 IntakeSystem intake_system { beam_break, intake };
 
-pros::ADIDigitalOut backWingL = pros::ADIDigitalOut('H');
-pros::ADIDigitalOut backWingR = pros::ADIDigitalOut('B');
-pros::ADIDigitalOut frontWings = pros::ADIDigitalOut('F');
+pros::ADIDigitalOut backWingL = pros::ADIDigitalOut('C');
+pros::ADIDigitalOut backWingR = pros::ADIDigitalOut('F');
+pros::ADIDigitalOut frontWings = pros::ADIDigitalOut('E');
 
 Wings wings { backWingL, backWingR, frontWings };
 

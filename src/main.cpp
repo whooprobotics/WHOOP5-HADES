@@ -107,7 +107,7 @@ void opcontrol() {
   //Path path;
   //path.add_straight(Straight({ 10_in, 0_in, 0_deg }, 0_in, MOTOR_SPEED::SLOW));
   //path.go(reckless, turn);
-  autonomous();
+  //autonomous();
   //print_position(odom);
 
 	pros::Controller controller(pros::E_CONTROLLER_MASTER);
