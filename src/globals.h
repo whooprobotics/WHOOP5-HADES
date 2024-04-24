@@ -46,6 +46,7 @@ extern pros::ADIDigitalOut backWingL;
 extern pros::ADIDigitalOut backWingR;
 extern pros::ADIDigitalOut frontWings;
 extern pros::ADIDigitalOut odomHydraulic;
+extern pros::ADIDigitalOut ratchet;
 
 extern Wings wings;
 

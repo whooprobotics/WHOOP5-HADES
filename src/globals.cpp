@@ -33,10 +33,11 @@ pros::Rotation lat = pros::Rotation(H_ROTATION_PORT);
 pros::ADIDigitalIn beam_break('D');
 IntakeSystem intake_system { beam_break, intake };
 
-pros::ADIDigitalOut backWingL = pros::ADIDigitalOut('F');
+pros::ADIDigitalOut backWingL = pros::ADIDigitalOut('G');
 pros::ADIDigitalOut backWingR = pros::ADIDigitalOut('C');
-pros::ADIDigitalOut frontWings = pros::ADIDigitalOut('E');
+pros::ADIDigitalOut frontWings = pros::ADIDigitalOut('H');
+pros::ADIDigitalOut ratchet = pros::ADIDigitalOut('E');
 
 Wings wings { backWingL, backWingR, frontWings };
 
-pros::ADIDigitalOut odomHydraulic = pros::ADIDigitalOut('G');
+pros::ADIDigitalOut odomHydraulic = pros::ADIDigitalOut('F');

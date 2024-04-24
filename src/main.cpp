@@ -107,7 +107,7 @@ void opcontrol() {
   //Path path;
   //path.add_straight(Straight({ 10_in, 0_in, 0_deg }, 0_in, MOTOR_SPEED::SLOW));
   //path.go(reckless, turn);
-  autonomous();
+  //autonomous();
   //print_position(odom);
 
 	pros::Controller controller(pros::E_CONTROLLER_MASTER);
@@ -132,22 +132,30 @@ R2 - outake
     pros::lcd::set_text(3, "bb: " + std::to_string(beam_break.get_value()));
     int starting = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
 
-    int turn = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
-    if (abs(starting) < 25){
+    // int turn = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+    // if (abs(starting) < 25){
+    //     starting = 0;
+    // }
+    // if (abs(turn) < 35){
+    //     turn = 0;
+    // }
+
+    // if (abs(starting) < 25){
+    //     starting = 0;
+    // }
+    // if (abs(turn) < 35){
+    //     turn = 0;
+    // }
+
+    int turn = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X) * exp(-abs(starting) * 0.001);
+    if (abs(starting) < 50){
         starting = 0;
     }
-    if (abs(turn) < 35){
+    if (abs(turn) < 50){
         turn = 0;
     }
 
-    if (abs(starting) < 25){
-        starting = 0;
-    }
-    if (abs(turn) < 35){
-        turn = 0;
-    }
-
-    if (controller.get_digital(DIGITAL_R1)) {
+    if (controller.get_digital(DIGITAL_L1)) {
       if (!r1Down) {
         r1Down = true;
         rearWingsOut = !rearWingsOut;
@@ -163,7 +171,7 @@ R2 - outake
       r1Down = false;
     }
 
-     if (controller.get_digital(DIGITAL_L1)) {
+     if (controller.get_digital(DIGITAL_L2)) {
       if (!l1Down) {
         l1Down = true;
         frontWingsOut = !frontWingsOut;
@@ -177,6 +185,29 @@ R2 - outake
       l1Down = false;
     }
 
+
+  //CLIMBING mech
+  if (controller.get_digital(DIGITAL_UP))
+  {
+    climbing_mech.move_voltage(12000);
+  }
+  else if (controller.get_digital(DIGITAL_DOWN))
+  {
+    climbing_mech.move_voltage(-12000);
+  }
+  else { climbing_mech.move_voltage(0);
+    climbing_mech.brake();
+  }
+
+  //ratchet
+  if (controller.get_digital(DIGITAL_RIGHT))
+  {
+    ratchet.set_value(1);
+  }
+  else{
+    ratchet.set_value(0);
+  }
+  
     //  if (controller.get_digital(DIGITAL_UP))
     // {
     //   climbing_mech.move_voltage(12000);
@@ -208,9 +239,9 @@ R2 - outake
 	right_mg.move_voltage((int)((double) (starting - turn)/150 * 12000));
 
 
-		if (controller.get_digital(DIGITAL_L2))
+		if (controller.get_digital(DIGITAL_R2))
 			intake.move_voltage(12000);
-		else if (controller.get_digital(DIGITAL_R2))
+		else if (controller.get_digital(DIGITAL_R1))
 			intake.move_voltage(-12000);
 		else intake.move_voltage(0);
 
