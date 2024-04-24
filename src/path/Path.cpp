@@ -95,7 +95,6 @@ void Path::go(std::shared_ptr<Reckless> reckless,
     int i = 0;
     while (!straight_segments.empty() || !turns.empty() 
                 || !wing_controls.empty() || !delays.empty() || !intake_controls.empty()) {
-        pros::delay(1000);
         if (is_turn == TURN) {
              MyTurn turn = turns.front();
              turns.pop();

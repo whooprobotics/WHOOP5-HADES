@@ -8,14 +8,16 @@ void comp_auto(std::shared_ptr<rev::TwoRotationInertialOdometry> odom, std::shar
 {
     Path path;
 
+
     // get the bottom left ball
-    path.add_straight(Straight({35_in, -1_in, 0_deg}, 0_in, MOTOR_SPEED::MID, true, 400_ms));
+    path.add_straight(Straight({38_in, -1_in, 0_deg}, 0_in, MOTOR_SPEED::MID, true, 400_ms));
     path.add_intake_control(IN);
-    path.add_straight(Straight({35_in, -1_in, 0_deg}, 0_in, MOTOR_SPEED::MID, true, 2000_ms));
+    path.add_straight(Straight({38_in, -1_in, 0_deg}, 0_in, MOTOR_SPEED::MID, false, 1000_ms));
     path.add_intake_control(IN_WITH_SENSE);
 
     // drop if off for Zeus to grab
     path.add_turn(MyTurn(135_deg, 700_ms));
+    path.add_straight(Straight({25_in, 8_in, 0_deg}, 0_in, MOTOR_SPEED::MID, false, 1000_ms));
    // path.add_straight(Straight({33_in, 25_in, 0_deg}, 0_in, MOTOR_SPEED::MID, false, 1300_ms));
     path.add_intake_control(OUT_SLOW);
     path.add_delay(600);
@@ -24,9 +26,9 @@ void comp_auto(std::shared_ptr<rev::TwoRotationInertialOdometry> odom, std::shar
 
     // Go back for the second ball on the left
     path.add_turn(MyTurn(-30_deg, 600_ms));
-    path.add_straight(Straight({47_in, -8_in, 0_deg}, 0_in, MOTOR_SPEED::MID, true));
+    path.add_straight(Straight({50_in, -8_in, 0_deg}, 0_in, MOTOR_SPEED::MID, true));
     path.add_intake_control(IN);
-    path.add_straight(Straight({47_in, -8_in, 0_deg}, 0_in, MOTOR_SPEED::MID, true));
+    path.add_straight(Straight({50_in, -8_in, 0_deg}, 0_in, MOTOR_SPEED::MID, true));
     path.add_intake_control(IN_WITH_SENSE);
 
 
@@ -47,12 +49,12 @@ void comp_auto(std::shared_ptr<rev::TwoRotationInertialOdometry> odom, std::shar
     path.add_turn(MyTurn(45_deg));
 
     path.add_wing_control(Wing(OPEN, FRONT));
-    path.add_straight(Straight({  54_in, 4_in, 0_deg}, 0_in, MOTOR_SPEED::MID,true,400_ms));
+    path.add_straight(Straight({  58_in, 6_in, 0_deg}, 0_in, MOTOR_SPEED::MID,true,400_ms));
     path.add_intake_control(OUT);
-    path.add_straight(Straight({  54_in, 4_in, 0_deg}, 0_in, MOTOR_SPEED::FAST,true,1000_ms));
+    path.add_straight(Straight({  58_in, 6_in, 0_deg}, 0_in, MOTOR_SPEED::FAST,true,1000_ms));
 
 
-    path.add_straight(Straight({50_in, 5_in, 0_deg}, 0_in, MOTOR_SPEED::MID, true, 2000_ms));
+    path.add_straight(Straight({50_in, 0_in, 0_deg}, 0_in, MOTOR_SPEED::MID, true, 2000_ms));
 
     // path.add_turn(-10_deg);
     // path.add_straight(Straight({  54_in,  4_in, 0_deg}, 0_in, MOTOR_SPEED::MID,true,200_ms));
@@ -60,7 +62,7 @@ void comp_auto(std::shared_ptr<rev::TwoRotationInertialOdometry> odom, std::shar
     // path.add_straight(Straight({  54_in,   4_in, 0_deg}, 0_in, MOTOR_SPEED::MID,false,1000_ms));
     // path.add_intake_control(IN_WITH_SENSE);
 
-    path.add_straight(Straight({54_in, 4_in, 0_deg}, 0_in, MOTOR_SPEED::MID, true, 2000_ms));
+    path.add_straight(Straight({58_in, 6_in, 0_deg}, 0_in, MOTOR_SPEED::MID, true, 2000_ms));
     //path.add_straight(Straight({  60_in,   8_in, 0_deg}, 0_in, MOTOR_SPEED::MID,true,1000_ms));
 
     path.add_intake_control(OUT_SLOW);
@@ -82,7 +84,7 @@ void comp_auto(std::shared_ptr<rev::TwoRotationInertialOdometry> odom, std::shar
 
     // go back to the starting point
     path.add_straight(Straight({24_in, 1_in, 0_deg}, 0_in, MOTOR_SPEED::MID, true, 9999_s));
-    path.add_straight(Straight({3_in, -1_in, 0_deg}, 0_in, MOTOR_SPEED::MID, true, 1_s));
+    path.add_straight(Straight({3_in, 1_in, 0_deg}, 0_in, MOTOR_SPEED::MID, true, 1_s));
     path.add_turn(MyTurn(-90_deg, 800_ms));
 
 
@@ -93,7 +95,7 @@ void comp_auto(std::shared_ptr<rev::TwoRotationInertialOdometry> odom, std::shar
 path.add_wing_control(Wing(OPEN, BACK_LEFT));
 for (int i = 0; i < 6; i++) {
 path.add_straight(Straight({1.5_in, 0_in, 0_deg}, 1_in, MOTOR_SPEED::MID_STRAIGHT, false, 800_ms));
-path.add_straight(Straight({4.0_in, 13_in, 0_deg}, 1_in, MOTOR_SPEED::MID_STRAIGHT, false, 800_ms));
+path.add_straight(Straight({3.0_in, 13_in, 0_deg}, 1_in, MOTOR_SPEED::MID_STRAIGHT, false, 800_ms));
 }
 path.add_wing_control(Wing(CLOSE, BACK_LEFT));
 path.add_wing_control(Wing(OPEN, BACK_RIGHT));
@@ -101,10 +103,10 @@ path.add_wing_control(Wing(OPEN, BACK_RIGHT));
 path.add_delay(200);
 
 // go to the other side
-path.add_straight(Straight({7.07_in, 25.46_in, 0_deg}, 0_in, MOTOR_SPEED::MID_STRAIGHT, true, 800_ms));
+path.add_straight(Straight({7.07_in, 27.46_in, 0_deg}, 0_in, MOTOR_SPEED::MID_STRAIGHT, true, 800_ms));
 
-path.add_straight(Straight({36.77_in, 55.15_in, 0_deg}, 0_in, MOTOR_SPEED::MID_STRAIGHT, true));
-path.add_straight(Straight({43.84_in, 62.23_in, 0_deg}, 5_in, MOTOR_SPEED::MID, true));
+path.add_straight(Straight({36.77_in, 57.15_in, 0_deg}, 0_in, MOTOR_SPEED::MID_STRAIGHT, true));
+path.add_straight(Straight({43.84_in, 64.23_in, 0_deg}, 5_in, MOTOR_SPEED::MID, true));
 
 // open back wing as soon as robot reaches other side
 path.add_straight(Straight({53.03_in, 71.42_in, 0_deg}, 4_in, MOTOR_SPEED::MID, true, 2500_ms));
@@ -130,9 +132,9 @@ for (int i = 0; i < 2; i++) {
 // go to pole
 path.add_wing_control(Wing(CLOSE, BACK_RIGHT));
 
-path.add_straight(Straight({  65_in,  79_in, 0_deg}, 0_in, MOTOR_SPEED::MID,false,1_s));
+path.add_straight(Straight({  63_in,  81_in, 0_deg}, 0_in, MOTOR_SPEED::MID,false,1_s));
 path.add_turn(MyTurn(226_deg));
-path.add_straight(Straight({  32_in,  43_in, 0_deg}, 0_in, MOTOR_SPEED::MID,false,2_s));
+path.add_straight(Straight({  30_in,  45_in, 0_deg}, 0_in, MOTOR_SPEED::MID,false,2_s));
 
 path.add_wing_control(Wing(OPEN, BACK_RIGHT));
 
