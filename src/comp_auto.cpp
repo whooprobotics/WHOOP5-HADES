@@ -8,6 +8,11 @@ void comp_auto(std::shared_ptr<rev::TwoRotationInertialOdometry> odom, std::shar
 {
     Path path;
 
+    path.add_turn(MyTurn(-45_deg,500_ms, 0.7));
+    path.add_intake_control(OUT);
+    path.add_delay(300);
+    path.add_intake_control(REST);
+    path.add_turn(MyTurn(0_deg, 300_ms, 0.7));
 
     // get the bottom left ball
     path.add_straight(Straight({38_in, -1_in, 0_deg}, 0_in, MOTOR_SPEED::MID, true, 400_ms));
@@ -17,7 +22,7 @@ void comp_auto(std::shared_ptr<rev::TwoRotationInertialOdometry> odom, std::shar
 
     // drop if off for Zeus to grab
     path.add_turn(MyTurn(135_deg, 700_ms));
-    path.add_straight(Straight({25_in, 8_in, 0_deg}, 0_in, MOTOR_SPEED::MID, false, 1000_ms));
+    path.add_straight(Straight({25_in, 8_in, 0_deg}, 0_in, MOTOR_SPEED::MID, false, 800_ms));
    // path.add_straight(Straight({33_in, 25_in, 0_deg}, 0_in, MOTOR_SPEED::MID, false, 1300_ms));
     path.add_intake_control(OUT_SLOW);
     path.add_delay(600);
@@ -133,7 +138,8 @@ for (int i = 0; i < 2; i++) {
 path.add_wing_control(Wing(CLOSE, BACK_RIGHT));
 
 path.add_straight(Straight({  63_in,  81_in, 0_deg}, 0_in, MOTOR_SPEED::MID,false,1_s));
-path.add_turn(MyTurn(226_deg));
+path.add_turn(MyTurn(226_deg, 700_ms));
+path.add_intake_control(OUT);
 path.add_straight(Straight({  30_in,  45_in, 0_deg}, 0_in, MOTOR_SPEED::MID,false,2_s));
 
 path.add_wing_control(Wing(OPEN, BACK_RIGHT));
