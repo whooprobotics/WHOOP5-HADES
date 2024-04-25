@@ -107,7 +107,7 @@ void opcontrol() {
   //Path path;
   //path.add_straight(Straight({ 10_in, 0_in, 0_deg }, 0_in, MOTOR_SPEED::SLOW));
   //path.go(reckless, turn);
-  //autonomous();
+  autonomous();
   //print_position(odom);
 
 	pros::Controller controller(pros::E_CONTROLLER_MASTER);
@@ -155,7 +155,7 @@ R2 - outake
         turn = 0;
     }
 
-    if (controller.get_digital(DIGITAL_L1)) {
+    if (controller.get_digital(DIGITAL_L2)) {
       if (!r1Down) {
         r1Down = true;
         rearWingsOut = !rearWingsOut;
@@ -171,7 +171,7 @@ R2 - outake
       r1Down = false;
     }
 
-     if (controller.get_digital(DIGITAL_L2)) {
+     if (controller.get_digital(DIGITAL_L1)) {
       if (!l1Down) {
         l1Down = true;
         frontWingsOut = !frontWingsOut;

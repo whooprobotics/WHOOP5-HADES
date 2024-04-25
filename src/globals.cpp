@@ -17,9 +17,9 @@ std::shared_ptr<rev::CampbellTurn> turn;
 
 // motor ports
 pros::MotorGroup left_mg({-17,-18,-19,-20 });//17,18,19,20
-pros::MotorGroup right_mg({ 13,4, 10, 5 });//-13, -4, -10, -5
+pros::MotorGroup right_mg({ 13,4, 10, 5});//-13, -4, -10, -5
 pros::MotorGroup intake({ 16, -15 });
-pros::MotorGroup climbing_mech({ 11, -2 });
+pros::MotorGroup climbing_mech({ 14, -2 });
 
 // sensor inputs
 const int IMU_PORT = 12;
@@ -33,8 +33,8 @@ pros::Rotation lat = pros::Rotation(H_ROTATION_PORT);
 pros::ADIDigitalIn beam_break('D');
 IntakeSystem intake_system { beam_break, intake };
 
-pros::ADIDigitalOut backWingL = pros::ADIDigitalOut('G');
-pros::ADIDigitalOut backWingR = pros::ADIDigitalOut('C');
+pros::ADIDigitalOut backWingL = pros::ADIDigitalOut('C');
+pros::ADIDigitalOut backWingR = pros::ADIDigitalOut('G');
 pros::ADIDigitalOut frontWings = pros::ADIDigitalOut('H');
 pros::ADIDigitalOut ratchet = pros::ADIDigitalOut('E');
 
