@@ -204,9 +204,6 @@ R2 - outake
   {
     ratchet.set_value(1);
   }
-  else{
-    ratchet.set_value(0);
-  }
   
     //  if (controller.get_digital(DIGITAL_UP))
     // {

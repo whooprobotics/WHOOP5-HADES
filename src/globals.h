@@ -10,8 +10,8 @@
 const int WING_OUT = 1;
 const int WING_IN = 0;
 
-const int ODOM_UP = 0;
-const int ODOM_DOWN = 1;
+const int ODOM_UP = 1;
+const int ODOM_DOWN = 0;
 
 const int WING_LEFT_OUT = 0;
 const int WING_LEFT_IN = 1;
