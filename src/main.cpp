@@ -107,7 +107,7 @@ void opcontrol() {
   //Path path;
   //path.add_straight(Straight({ 10_in, 0_in, 0_deg }, 0_in, MOTOR_SPEED::SLOW));
   //path.go(reckless, turn);
-  //autonomous();
+  autonomous();
   //print_position(odom);
 
 	pros::Controller controller(pros::E_CONTROLLER_MASTER);
@@ -187,11 +187,11 @@ R2 - outake
 
 
   //CLIMBING mech
-  if (controller.get_digital(DIGITAL_UP))
+  if (controller.get_digital(DIGITAL_X))
   {
     climbing_mech.move_voltage(12000);
   }
-  else if (controller.get_digital(DIGITAL_DOWN))
+  else if (controller.get_digital(DIGITAL_B))
   {
     climbing_mech.move_voltage(-12000);
   }

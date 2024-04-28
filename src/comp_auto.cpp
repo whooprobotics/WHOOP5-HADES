@@ -8,11 +8,23 @@ void comp_auto(std::shared_ptr<rev::TwoRotationInertialOdometry> odom, std::shar
 {
     Path path;
 
-    path.add_turn(MyTurn(-45_deg,500_ms, 0.7));
-    path.add_intake_control(OUT);
-    path.add_delay(300);
-    path.add_intake_control(REST);
-    path.add_turn(MyTurn(0_deg, 300_ms, 0.7));
+    //path.add_turn(MyTurn(-45_deg,500_ms, 0.7));
+    //path.add_intake_control(OUT);
+    //path.add_delay(300);
+    //path.add_intake_control(REST);
+    path.add_straight(Straight({3_in, 0_in, 0_deg}, 0_in, MOTOR_SPEED::MID, false, 500_ms));
+    //path.add_wing_control(Wing(OPEN, BACK_RIGHT));
+    path.add_turn(MyTurn(-90_deg, 400_ms, 0.7));
+    path.add_wing_control(Wing(OPEN, BACK_LEFT));
+    path.add_delay(100);
+    //path.add_straight(Straight({10_in, -10_in, 0_deg}, 0_in, MOTOR_SPEED::MID, true, 1000_ms));
+
+    //path.add_straight(Straight({  10_in, -21_in, 0_deg}, 0_in, MOTOR_SPEED::MID,false,1000_ms));
+    path.add_turn(MyTurn(0_deg));
+    path.add_wing_control(Wing(CLOSE, BACK_LEFT));
+    path.add_delay(100);
+    //path.add_straight(Straight({  16_in,   0_in, 0_deg}, 0_in, MOTOR_SPEED::MID,false,1000_ms));
+
 
     // get the bottom left ball
     path.add_straight(Straight({38_in, -1_in, 0_deg}, 0_in, MOTOR_SPEED::MID, true, 400_ms));
@@ -88,7 +100,8 @@ void comp_auto(std::shared_ptr<rev::TwoRotationInertialOdometry> odom, std::shar
 
 
     // go back to the starting point
-    path.add_straight(Straight({24_in, 1_in, 0_deg}, 0_in, MOTOR_SPEED::MID, true, 9999_s));
+    path.add_straight(Straight({24_in, 4_in, 0_deg}, 0_in, MOTOR_SPEED::MID, false, 9999_s));
+    path.add_delay(1250);
     path.add_straight(Straight({3_in, 1_in, 0_deg}, 0_in, MOTOR_SPEED::MID, true, 1_s));
     path.add_turn(MyTurn(-90_deg, 800_ms));
 
@@ -98,7 +111,7 @@ void comp_auto(std::shared_ptr<rev::TwoRotationInertialOdometry> odom, std::shar
 
 // intake balls
 path.add_wing_control(Wing(OPEN, BACK_LEFT));
-for (int i = 0; i < 6; i++) {
+for (int i = 0; i < 7; i++) {
 path.add_straight(Straight({1.5_in, 0_in, 0_deg}, 1_in, MOTOR_SPEED::MID_STRAIGHT, false, 800_ms));
 path.add_straight(Straight({3.0_in, 13_in, 0_deg}, 1_in, MOTOR_SPEED::MID_STRAIGHT, false, 800_ms));
 }
@@ -121,9 +134,9 @@ path.add_straight(Straight({74.25_in, 81.32_in, 0_deg}, 0_in, MOTOR_SPEED::MID, 
 
 // push the balls in
 
-path.add_straight(Straight({91.92_in, 70.71_in, 0_deg}, 0_in, MOTOR_SPEED::MID, true, 600_ms));
+path.add_straight(Straight({91.92_in, 70.71_in, 0_deg}, 0_in, MOTOR_SPEED::SLOW_MID, true, 600_ms));
 
-path.add_straight(Straight({98.99_in, 63.64_in, 0_deg}, 0_in, MOTOR_SPEED::SLOW, false, 600_ms));
+path.add_straight(Straight({98.99_in, 63.64_in, 0_deg}, 0_in, MOTOR_SPEED::SLOW_MID, false, 600_ms));
 
 path.add_wing_control(Wing(CLOSE, BACK_LEFT));
 

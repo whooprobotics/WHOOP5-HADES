@@ -29,6 +29,9 @@ void Path::add_straight(const Straight& straight) {
         //speed = 0.6;
         //softStop = 0.28_s;
         break;
+    case MOTOR_SPEED::SLOW_MID:
+        speed = 0.5;
+        break;
     case MOTOR_SPEED::FAST:
         speed = 1.0;
         hardStop = 0.04_s;
@@ -140,7 +143,7 @@ void Path::go(std::shared_ptr<Reckless> reckless,
                     intake.intake.move_voltage(-10000);
                     break;
                 case REST:
-                    intake.intake.move_voltage(0);
+                    intake.intake.move_velocity(0);
                     break;
                 case OUT_WITH_SENSE:
                     intake.intake.move_voltage(-12000);
@@ -151,7 +154,7 @@ void Path::go(std::shared_ptr<Reckless> reckless,
                         pros::delay(10);
                     }
 
-                    intake.intake.move_voltage(0);
+                    intake.intake.move_velocity(0);
                     break;
                 case IN_WITH_SENSE:
                     intake.intake.move_voltage(12000);

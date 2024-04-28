@@ -5,7 +5,7 @@
 using namespace rev;
 
 enum MOTOR_SPEED {
-    FAST, MID, SLOW, MID_STRAIGHT
+    FAST, MID, SLOW, MID_STRAIGHT, SLOW_MID
 };
 
 class Straight {
